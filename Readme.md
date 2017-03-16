@@ -19,7 +19,7 @@ Simplistically, we could perform a `Contains()` on the individual properties:
 									   string filter)
 	{
 		return products.Where(p => p.Sku.Contains(filter) ||
-								   p.Title.Contains(filter));
+                                   p.Title.Contains(filter));
 	}
 
 To get a little more sophisticates, we could break the filter into individual words and perform the above search on each one.
@@ -40,9 +40,9 @@ First, we need to create an instance of ThingFilter based on the type of object 
 In order for the filter to work, we need to tell it the data to analyze via the `MatchOn()` method.  The sole parameter for this method is a function that takes the object and returns a value.  This value will be converted to a string and compared to a word in the query.
 
 	var filter = new ThingFilter<Product>()
-						.MatchOn(p => p.Sku)
-						.MatchOn(p => p.Title)
-						.MatchOn(p => p.Price);
+                        .MatchOn(p => p.Sku)
+                        .MatchOn(p => p.Title)
+                        .MatchOn(p => p.Price);
 
 ### Optionally select a case-sensitive filter
 
