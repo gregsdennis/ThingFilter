@@ -8,17 +8,17 @@ Here's the product:
 
 	class Product
 	{
-		public string Sku { get; set; }
-		public string Title { get; set; }
-		public decimal UnitPrice { get; set; }
+        public string Sku { get; set; }
+        public string Title { get; set; }
+        public decimal UnitPrice { get; set; }
 	}
 
 Simplistically, we could perform a `Contains()` on the individual properties:
 
 	public IEnumerable<Product> Filter(this IEnumerable<Product> products,
-									   string filter)
+                                       string filter)
 	{
-		return products.Where(p => p.Sku.Contains(filter) ||
+        return products.Where(p => p.Sku.Contains(filter) ||
                                    p.Title.Contains(filter));
 	}
 
