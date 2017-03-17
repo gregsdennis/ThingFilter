@@ -16,29 +16,8 @@
 		<tags>filter search fluent</tags>
 	</metadata>
 	<files>
-		<file src="bin\Release-3.5\Manatee.Json.dll" target="lib\net35-client"/>
-		<file src="bin\Release-3.5\Manatee.Json.pdb" target="lib\net35-client"/>
-		<file src="bin\Release-3.5\Manatee.Json.xml" target="lib\net35-client"/>
-		<file src="bin\Release-4.0\Manatee.Json.dll" target="lib\net40-client"/>
-		<file src="bin\Release-4.0\Manatee.Json.pdb" target="lib\net40-client"/>
-		<file src="bin\Release-4.0\Manatee.Json.xml" target="lib\net40-client"/>
-		<file src="bin\Release-4.5\Manatee.Json.dll" target="lib\net45"/>
-		<file src="bin\Release-4.5\Manatee.Json.pdb" target="lib\net45"/>
-		<file src="bin\Release-4.5\Manatee.Json.xml" target="lib\net45"/>
-		<file src="bin\Release\netstandard1.6\Manatee.Json.dll" target="lib\netstandard1.6"/>
-		<file src="bin\Release\netstandard1.6\Manatee.Json.pdb" target="lib\netstandard1.6"/>
-		<file src="bin\Release\netstandard1.6\Manatee.Json.xml" target="lib\netstandard1.6"/>
-		<file src="bin\Release-Portable\Manatee.Json.dll" target="lib\MonoAndroid"/>
-		<file src="bin\Release-Portable\Manatee.Json.pdb" target="lib\MonoAndroid"/>
-		<file src="bin\Release-Portable\Manatee.Json.xml" target="lib\MonoAndroid"/>
-		<file src="bin\Release-Portable\Manatee.Json.dll" target="lib\MonoMac"/>
-		<file src="bin\Release-Portable\Manatee.Json.pdb" target="lib\MonoMac"/>
-		<file src="bin\Release-Portable\Manatee.Json.xml" target="lib\MonoMac"/>
-		<file src="bin\Release-Portable\Manatee.Json.dll" target="lib\MonoTouch"/>
-		<file src="bin\Release-Portable\Manatee.Json.pdb" target="lib\MonoTouch"/>
-		<file src="bin\Release-Portable\Manatee.Json.xml" target="lib\MonoTouch"/>
-		<file src="bin\Release-Portable\Manatee.Json.dll" target="lib\portable-net45+netcore45+wpa81"/>
-		<file src="bin\Release-Portable\Manatee.Json.pdb" target="lib\portable-net45+netcore45+wpa81"/>
-		<file src="bin\Release-Portable\Manatee.Json.xml" target="lib\portable-net45+netcore45+wpa81"/>
+		<file src="bin\Release\ThingFilter.dll" target="lib\portable-net45+netcore45+wpa81"/>
+		<file src="bin\Release\ThingFilter.pdb" target="lib\portable-net45+netcore45+wpa81"/>
+		<file src="bin\Release\ThingFilter.xml" target="lib\portable-net45+netcore45+wpa81"/>
 	</files>
 </package>
