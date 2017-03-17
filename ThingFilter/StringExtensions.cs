@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Filter
+namespace ThingFilter
 {
 	public static class StringExtensions
 	{

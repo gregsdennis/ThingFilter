@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Filter\Filter.csproj">
-      <Project>{ECE079C6-20D9-47C1-BC30-3A0450642E0A}</Project>
-      <Name>Filter</Name>
+    <ProjectReference Include="..\ThingFilter\ThingFilter.csproj">
+      <Project>{B9465B59-70DA-4F08-A1C2-557450BBDA49}</Project>
+      <Name>ThingFilter</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

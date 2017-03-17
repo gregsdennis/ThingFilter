@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Filter
+namespace ThingFilter
 {
 	public class ThingFilter<T>
 	{
