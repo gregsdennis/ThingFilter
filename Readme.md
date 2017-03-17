@@ -1,4 +1,6 @@
-ThingFilter is a string-based collection filter for .Net with an easy-to-use fluent interface.  Think of it as Google for your objects.
+Think of it as Google for your objects.
+
+[![littlecrabsolutions MyGet Build Status](https://www.myget.org/BuildSource/Badge/littlecrabsolutions?identifier=526ca85a-64e9-4255-9774-61bb974a3487)](https://www.myget.org/)
 
 ## An Example
 
