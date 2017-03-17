@@ -45,7 +45,7 @@ namespace ThingFilter
 			var values = collection.Select(i => new
 				{
 					Item = i,
-					Values = _GetValueStrings(i).ToList()
+					Values = _GetValues(i).ToList()
 				});
 
 			var results = values.Select(i => new
@@ -66,11 +66,11 @@ namespace ThingFilter
 			              .Distinct();
 		}
 
-		private IEnumerable<TaggedValue> _GetValueStrings<TValue>(TValue value)
+		private IEnumerable<TaggedValue> _GetValues<TValue>(TValue value)
 		{
 			var values = _allTargets.Select(e => new TaggedValue
 				{
-					Value = e.Delegate.DynamicInvoke(value)?.ToString(),
+					Value = e.Delegate.DynamicInvoke(value),
 					Tag = e.Tag,
 					RequiresTag = e.RequireTag
 				});

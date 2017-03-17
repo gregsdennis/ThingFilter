@@ -2,7 +2,7 @@
 {
 	internal class TaggedValue
 	{
-		public string Value { get; set; }
+		public object Value { get; set; }
 		public string Tag { get; set; }
 		public bool RequiresTag { get; set; }
 	}
