@@ -33,30 +33,49 @@ But this approach has some drawbacks:
 
 That's where ThingFilter comes in.
 
-## Usage
+## Query Options
 
-First, we need to create an instance of ThingFilter based on the type of object we want to filter.  Then we configure it.
+	simple "quoted substring" tagged:6
 
-### Choose your filter criteria
+The above query string shows the available syntaxes supported by ThingFilter.  Let's break it down to see how each token is applied.
 
-In order for the filter to work, we need to tell it the data to analyze via the `MatchOn()` method.  The sole parameter for this method is a function that takes the object and returns a value.  This value will be converted to a string and compared to a word in the query.
+The first two are pretty easy.
 
-	var filter = new ThingFilter<Product>()
-                        .MatchOn(p => p.Sku)
-                        .MatchOn(p => p.Title)
-                        .MatchOn(p => p.Price);
+- The `simple` token is a single word that matches on a "contains" basis.
+- The `quoted substring` is multiple words that matches on a "contains" basis.
 
-### Optionally select a case-sensitive filter
+Both of these work on any of the configured values of an item.
 
-The default behavior of the ThingFilter is a case-insensitive comparison.  If you prefer a case-sensitive comparison, you can use the `CaseSensitive()` method.
+The `tagged:6` on is a bit more complex.  In configuring the filter, the tag `tagged` has been set to search on a particular value of an item in the collection.  This means that even if another configured value produces a match, the match won't be registered.
 
-	filter.CaseSensitive();
+Furthermore, a tagged value may be configured to match only if the tag is present.  If this were the case for `tagged:6`, then a mere `6` will not match on the value.
 
-### Sort by relevance
+## Configuration
 
-By default, the filter will return matches in the same order as the collection provided to it.  Optionally, you can sort by relevance by using the `SortByRelevance()` method.  This will cause the filter to rank each match and sort the results in a descending order, eliminating items which have no matches.
+Configuring the ThingFilter is performed through the `MatchOn()` method.  This method requires a function to return the value on which to filter.  Once obtained, the value will be converted to a string (via `ToString()`) so that the comparison to the query token can occur.
 
-### Getting results
+In it's simplest form, it will be matched against all untagged query tokens:
+
+	var filter = new ThingFilter<Product>().MatchOn(p => p.Title);
+
+The function you use doesn't have to be a property; it could be a field, or even a method that returns the desired value.  The following are also valid:
+
+	filter.MatchOn(p => p.GetTitle());
+	filter.MatchOn(p => p.Title.Length);
+
+To allow the user to specify a tag, you can provide it as a second parameter:
+
+	var filter = new ThingFilter<Product>().MatchOn(p => p.Title, "title");
+
+The tag doesn't have to match the name of the value, although it's sometimes helpful.  It's important to remember, though, that tags in the query token must be exactly equal to the value specified here.
+
+Finally, if you'd like the tag to be required, pass a `true` as the third parameter:
+
+	var filter = new ThingFilter<Product>().MatchOn(p => p.Title, "title", true);
+
+><small>**NOTE** The `MatchOn()` method will throw an exception if you specify that the tag is required without specifying a non-empty, non-whitespace tag.</small>
+
+## Getting results
 
 Once configured, you'll want results.  To get your results, pass your collection into the `Apply()` method.  This will yield an `IEnumerable<T>` with only the items which match your filter.
 
