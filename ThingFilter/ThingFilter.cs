@@ -1,54 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace ThingFilter
 {
 	public class ThingFilter<T>
 	{
-		private class ContainsComparer : IEqualityComparer<string>
-		{
-			private readonly CompareOptions _comparison;
-
-			public static ContainsComparer CaseSensitive { get; }
-			public static ContainsComparer CaseInsensitive { get; }
-
-			static ContainsComparer()
-			{
-				CaseSensitive = new ContainsComparer(CompareOptions.None);
-				CaseInsensitive = new ContainsComparer(CompareOptions.IgnoreCase);
-			}
-			private ContainsComparer(CompareOptions comparison)
-			{
-				_comparison = comparison;
-			}
-
-
-			public bool Equals(string x, string y)
-			{
-				var contains = y.Contains(x, _comparison);
-				return contains;
-			}
-			public int GetHashCode(string obj)
-			{
-				return 0;
-			}
-		}
-
-		private readonly List<Delegate> _expressions = new List<Delegate>();
-		private ContainsComparer _comparer = ContainsComparer.CaseInsensitive;
+		private readonly List<TaggedDelegate> _allTargets = new List<TaggedDelegate>();
+		private TaggedValueComparer _comparer = TaggedValueComparer.CaseInsensitive;
 		private bool _sort;
 
-		public ThingFilter<T> MatchOn<TProp>(Func<T, TProp> propertyExpression)
+		public ThingFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false)
 		{
-			_expressions.Add(propertyExpression);
+			tag = tag?.Trim();
+			var tagIsEmpty = string.IsNullOrEmpty(tag);
+			if (requireTag && tagIsEmpty)
+				throw new ArgumentException($"Parameter '{nameof(tag)}' must be provided if parameter '{nameof(requireTag)}' is true.");
+
+			_allTargets.Add(new TaggedDelegate
+				{
+					Delegate = valueFunc,
+					Tag = tag,
+					RequireTag = requireTag
+				});
 			return this;
 		}
 
 		public ThingFilter<T> CaseSensitive()
 		{
-			_comparer = ContainsComparer.CaseSensitive;
+			_comparer = TaggedValueComparer.CaseSensitive;
 			return this;
 		}
 
@@ -60,35 +40,40 @@ namespace ThingFilter
 
 		public IEnumerable<T> Apply(IEnumerable<T> collection, string text)
 		{
-			var words = text.GetTermsAdvanced().ToList();
+			var tokens = text.GetTokens().ToList();
 
-			var results = collection.Select(i => new
+			var values = collection.Select(i => new
 				{
 					Item = i,
-					ExpressionValues = _GetExprValueStrings(i)
+					Values = _GetValueStrings(i).ToList()
 				});
 
-			var filteredResults = results.Select(i => new
+			var results = values.Select(i => new
 				{
 					Item = i.Item,
-					Score = i.ExpressionValues.Intersect(words, _comparer).Count()
+					Score = i.Values.Intersect(tokens, _comparer).Count()
 				});
 
 			if (_sort)
-				return filteredResults.GroupBy(i => i.Score)
-				                      .OrderByDescending(g => g.Key)
-				                      .Where(g => g.Key != 0)
-				                      .SelectMany(g => g.Select(i => i.Item))
-				                      .Distinct();
+				return results.GroupBy(i => i.Score)
+				              .OrderByDescending(g => g.Key)
+				              .Where(g => g.Key != 0)
+				              .SelectMany(g => g.Select(i => i.Item))
+				              .Distinct();
 
-			return filteredResults.Where(i => i.Score != 0)
-			                      .Select(g => g.Item)
-			                      .Distinct();
+			return results.Where(i => i.Score != 0)
+			              .Select(g => g.Item)
+			              .Distinct();
 		}
 
-		private IEnumerable<string> _GetExprValueStrings<TValue>(TValue value)
+		private IEnumerable<TaggedValue> _GetValueStrings<TValue>(TValue value)
 		{
-			var values = _expressions.Select(e => e.DynamicInvoke(value)).Select(p => p?.ToString());
+			var values = _allTargets.Select(e => new TaggedValue
+				{
+					Value = e.Delegate.DynamicInvoke(value)?.ToString(),
+					Tag = e.Tag,
+					RequiresTag = e.RequireTag
+				});
 
 			return values;
 		}

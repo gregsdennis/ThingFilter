@@ -104,5 +104,85 @@ namespace FilterTests
 			Assert.AreEqual(2, results.Count());
 			Assert.AreSame(collection[1], results.First());
 		}
+
+		[TestMethod]
+		public void TaggedSearch()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1)
+				.MatchOn(s => s.Deep?.Prop1, "nest");
+			var collection = new List<Subject>
+				{
+					new Subject
+						{
+							Prop1 = "Prop1",
+							Value = 5,
+							Exclude = "Prop2"
+						},
+					new Subject
+						{
+							Prop1 = "Prop1a",
+							Value = 6,
+							Exclude = "Prop2"
+						},
+					new Subject
+						{
+							Prop1 = "Prop3",
+							Exclude = "Prop1",
+							Deep = new Subject {Prop1 = "test"}
+						},
+					new Subject
+						{
+							Prop1 = "test",
+							Value = 8,
+							Exclude = "Prop1"
+						}
+				};
+
+			var results = filter.Apply(collection, "prop1 nest:te");
+			Assert.AreEqual(3, results.Count());
+			Assert.IsTrue(results.Contains(collection[2]));
+			Assert.IsFalse(results.Contains(collection[3]));
+		}
+
+		[TestMethod]
+		public void RequiredTaggedSearch()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1)
+				.MatchOn(s => s.Deep?.Prop1, "nest", true);
+			var collection = new List<Subject>
+				{
+					new Subject
+						{
+							Prop1 = "Prop1",
+							Value = 5,
+							Exclude = "Prop2"
+						},
+					new Subject
+						{
+							Prop1 = "Prop1a",
+							Value = 6,
+							Exclude = "Prop2"
+						},
+					new Subject
+						{
+							Prop1 = "Prop3",
+							Exclude = "Prop1",
+							Deep = new Subject {Prop1 = "test"}
+						},
+					new Subject
+						{
+							Prop1 = "test",
+							Value = 8,
+							Exclude = "Prop1"
+						}
+				};
+
+			var results = filter.Apply(collection, "prop1 te");
+			Assert.AreEqual(3, results.Count());
+			Assert.IsFalse(results.Contains(collection[2]));
+			Assert.IsTrue(results.Contains(collection[3]));
+		}
 	}
 }
