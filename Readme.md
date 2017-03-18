@@ -35,9 +35,11 @@ That's where ThingFilter comes in.
 
 ## Query Options
 
-	simple "quoted substring" tagged:6
+	simple "quoted substring" tagged:value 42 true
 
 The above query string shows the available syntaxes supported by ThingFilter.  Let's break it down to see how each token is applied.
+
+### Simple queries
 
 The first two are pretty easy.
 
@@ -46,9 +48,15 @@ The first two are pretty easy.
 
 Both of these work on any of the configured values of an item.
 
-The `tagged:6` on is a bit more complex.  In configuring the filter, the tag `tagged` has been set to search on a particular value of an item in the collection.  This means that even if another configured value produces a match, the match won't be registered.
+### Tagged queries
 
-Furthermore, a tagged value may be configured to match only if the tag is present.  If this were the case for `tagged:6`, then a mere `6` will not match on the value.
+The `tagged:value` on is a bit more complex.  In configuring the filter, the tag `tagged` has been set to search on a particular value of an item in the collection.  This means that even if another configured value produces a match, the match won't be registered.
+
+Furthermore, a tagged value may be configured to match only if the tag is present.  If this were the case for `tagged:value`, then a mere `value` will not match on the value.
+
+### Interpreted data types
+
+For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.  This allows queries like `price:19.99`. 
 
 ## Configuration
 
