@@ -7,7 +7,7 @@ namespace ThingFilter
 	public class ThingFilter<T>
 	{
 		private readonly List<TaggedDelegate> _allTargets = new List<TaggedDelegate>();
-		private TaggedValueComparer _comparer = TaggedValueComparer.CaseInsensitive;
+		private readonly TaggedValueComparer _comparer = new TaggedValueComparer();
 		private bool _sort;
 
 		public ThingFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false)
@@ -28,7 +28,7 @@ namespace ThingFilter
 
 		public ThingFilter<T> CaseSensitive()
 		{
-			_comparer = TaggedValueComparer.CaseSensitive;
+			_comparer.IsCaseSensitive = true;
 			return this;
 		}
 

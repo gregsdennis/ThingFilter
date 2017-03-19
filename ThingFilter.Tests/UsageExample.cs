@@ -232,5 +232,167 @@ namespace FilterTests
 			var filtered = filter.Apply(collection, "true");
 			Assert.AreEqual(2, filtered.Count());
 		}
+
+		[TestMethod]
+		public void EqualTo()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "prop1"},
+					new Subject {Prop1 = "prop1a"}
+				};
+
+			var filtered = filter.Apply(collection, "prop=prop1");
+			Assert.AreEqual(1, filtered.Count());
+		}
+
+		[TestMethod]
+		public void NotEqualTo()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "prop1"},
+					new Subject {Prop1 = "prop1a"}
+				};
+
+			var filtered = filter.Apply(collection, "prop<>prop1");
+			Assert.AreEqual(1, filtered.Count());
+		}
+
+		[TestMethod]
+		public void LessThanString()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "abc"},
+					new Subject {Prop1 = "xyz"}
+				};
+
+			var filtered = filter.Apply(collection, "prop<prop1");
+			Assert.AreEqual(1, filtered.Count());
+			Assert.AreSame(collection[0], filtered.First());
+		}
+
+		[TestMethod]
+		public void LessThanNumber()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Value, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Value = 5},
+					new Subject {Value = 15}
+				};
+
+			var filtered = filter.Apply(collection, "prop<10");
+			Assert.AreEqual(1, filtered.Count());
+			Assert.AreSame(collection[0], filtered.First());
+		}
+
+		[TestMethod]
+		public void LessThanEqualString()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "abc"},
+					new Subject {Prop1 = "prop1"},
+					new Subject {Prop1 = "xyz"}
+				};
+
+			var filtered = filter.Apply(collection, "prop<=prop1");
+			Assert.AreEqual(2, filtered.Count());
+			Assert.AreSame(collection[0], filtered.First());
+		}
+
+		[TestMethod]
+		public void LessThanEqualNumber()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Value, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Value = 5},
+					new Subject {Value = 10},
+					new Subject {Value = 15}
+				};
+
+			var filtered = filter.Apply(collection, "prop<=10");
+			Assert.AreEqual(2, filtered.Count());
+			Assert.AreSame(collection[0], filtered.First());
+		}
+
+		[TestMethod]
+		public void GreaterThanString()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "abc"},
+					new Subject {Prop1 = "xyz"}
+				};
+
+			var filtered = filter.Apply(collection, "prop>prop1");
+			Assert.AreEqual(1, filtered.Count());
+			Assert.AreSame(collection[1], filtered.First());
+		}
+
+		[TestMethod]
+		public void GreaterThanNumber()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Value, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Value = 5},
+					new Subject {Value = 15}
+				};
+
+			var filtered = filter.Apply(collection, "prop>10");
+			Assert.AreEqual(1, filtered.Count());
+			Assert.AreSame(collection[1], filtered.First());
+		}
+
+		[TestMethod]
+		public void GreaterThanEqualString()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "abc"},
+					new Subject {Prop1 = "prop1"},
+					new Subject {Prop1 = "xyz"}
+				};
+
+			var filtered = filter.Apply(collection, "prop>=prop1");
+			Assert.AreEqual(2, filtered.Count());
+			Assert.AreSame(collection[1], filtered.First());
+		}
+
+		[TestMethod]
+		public void GreaterThanEqualNumber()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Value, "prop");
+			var collection = new List<Subject>
+				{
+					new Subject {Value = 5},
+					new Subject {Value = 10},
+					new Subject {Value = 15}
+				};
+
+			var filtered = filter.Apply(collection, "prop>=10");
+			Assert.AreEqual(2, filtered.Count());
+			Assert.AreSame(collection[1], filtered.First());
+		}
 	}
 }

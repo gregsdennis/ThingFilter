@@ -1,26 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 
 namespace ThingFilter
 {
 	internal class TaggedValueComparer : IEqualityComparer<TaggedValue>
 	{
-		private readonly CompareOptions _comparison;
+		private static readonly IEnumerable<IMatchEvaluator> Evaluators =
+			new List<IMatchEvaluator>
+				{
+					new ContainsMatchEvaluator(),
+					new EqualToMatchEvaluator(),
+					new NotEqualToMatchEvaluator(),
+					new LessThanMatchEvaluator(),
+					new LessThanEqualMatchEvaluator(),
+					new GreaterThanMatchEvaluator(),
+					new GreaterThanEqualMatchEvaluator()
+				};
 
-		public static TaggedValueComparer CaseSensitive { get; }
-		public static TaggedValueComparer CaseInsensitive { get; }
-
-		static TaggedValueComparer()
-		{
-			CaseSensitive = new TaggedValueComparer(CompareOptions.None);
-			CaseInsensitive = new TaggedValueComparer(CompareOptions.IgnoreCase);
-		}
-		private TaggedValueComparer(CompareOptions comparison)
-		{
-			_comparison = comparison;
-		}
-
+		public bool IsCaseSensitive { get; set; }
 
 		public bool Equals(TaggedValue query, TaggedValue target)
 		{
@@ -28,7 +26,7 @@ namespace ThingFilter
 			if (query.Tag == null && target.Tag != null && target.RequiresTag) return false;
 			if (query.Tag != null && query.Tag != target.Tag) return false;
 
-			var contains = _PerformGeneralComparison((string) query.Value, target.Value);
+			var contains = _PerformComparison((string) query.Value, target.Value, query.Operator);
 			return contains;
 		}
 		public int GetHashCode(TaggedValue obj)
@@ -36,31 +34,29 @@ namespace ThingFilter
 			return 0;
 		}
 
-		private bool _PerformGeneralComparison(string query, object target)
+		private bool _PerformComparison(string query, object target, TokenOperator operation)
 		{
+			var evaluator = Evaluators.FirstOrDefault(e => e.Operation == operation);
+			if (evaluator == null)
+				throw new ArgumentOutOfRangeException(nameof(operation));
+
 			if (target is bool)
-				return _PerformBooleanComparison(query, (bool) target);
+			{
+				bool boolQuery;
+				return bool.TryParse(query, out boolQuery) && evaluator.Match(boolQuery, (bool) target);
+			}
 			if (target is sbyte || target is byte || target is char ||
 			    target is short || target is ushort ||
 			    target is int || target is uint ||
 			    target is long || target is ulong ||
 			    target is float || target is double ||
 			    target is decimal)
-				return _PerformNumericComparison(query, Convert.ToDouble(target));
+			{
+				double doubleQuery;
+				return double.TryParse(query, out doubleQuery) && evaluator.Match(doubleQuery, Convert.ToDouble(target));
+			}
 
-			return target.ToString().Contains(query, _comparison);
-		}
-
-		private bool _PerformBooleanComparison(string query, bool target)
-		{
-			bool boolQuery;
-			return bool.TryParse(query, out boolQuery) && boolQuery == target;
-		}
-
-		private bool _PerformNumericComparison(string query, double target)
-		{
-			double doubleQuery;
-			return double.TryParse(query, out doubleQuery) && doubleQuery == target;
+			return evaluator.Match(query, target.ToString(), IsCaseSensitive);
 		}
 	}
 }
