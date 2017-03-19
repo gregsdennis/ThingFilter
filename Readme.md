@@ -70,7 +70,7 @@ ThingFilter also supports the following operators:
 - `>` Greater Than
 - `>=` Greater Than Or Equal To
 
-Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (i.e. `<=true`, they will never be matched.
+Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (i.e. `<=true`), they will never be matched.
 
 ## Configuration
 
