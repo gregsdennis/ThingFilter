@@ -24,7 +24,7 @@ Simplistically, we could perform a `Contains()` on the individual properties:
                                    p.Title.Contains(filter));
 	}
 
-To get a little more sophisticates, we could break the filter into individual words and perform the above search on each one.
+To get a little more sophisticated, we could break the filter into individual words and perform the above search on each one.
 
 But this approach has some drawbacks:
 
@@ -56,7 +56,7 @@ Furthermore, a tagged value may be configured to match only if the tag is presen
 
 ### Interpreted data types
 
-For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.  This allows queries like `price:19.99`. 
+For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.
 
 ### Additional operations
 
@@ -70,17 +70,17 @@ ThingFilter also supports the following operators:
 - `>` Greater Than
 - `>=` Greater Than Or Equal To
 
-Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (i.e. `<=true`), they will never be matched.
+Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (e.g. `<=true`), they will never be matched.
 
 ## Configuration
 
-Configuring the ThingFilter is performed through the `MatchOn()` method.  This method requires a function to return the value on which to filter.  Once obtained, the value will be converted to a string (via `ToString()`) so that the comparison to the query token can occur.
+Configuring the ThingFilter is performed through the `MatchOn()` method.  This method requires a function to return the value on which to filter.  Once obtained, the value will be checked for boolean and numeric types.  If the value not one of these types, it is converted to a string (via `ToString()`) and matching continues.
 
-In it's simplest form, it will be matched against all untagged query tokens:
+In it's simplest form, a value will be matched against all untagged query tokens:
 
 	var filter = new ThingFilter<Product>().MatchOn(p => p.Title);
 
-The function you use doesn't have to be a property; it could be a field, or even a method that returns the desired value.  The following are also valid:
+The function you use doesn't have to return a property value; it could return a field, or even call a method that returns the desired value.  The following are also valid:
 
 	filter.MatchOn(p => p.GetTitle());
 	filter.MatchOn(p => p.Title.Length);
@@ -89,7 +89,7 @@ To allow the user to specify a tag, you can provide it as a second parameter:
 
 	var filter = new ThingFilter<Product>().MatchOn(p => p.Title, "title");
 
-The tag doesn't have to match the name of the value, although it's sometimes helpful.  It's important to remember, though, that tags in the query token must be exactly equal to the value specified here.
+The tag doesn't have to match the name of the value, although it's sometimes helpful.  It's important to remember, though, that tags in the query token must be exactly equal to the value specified here.  Also, these tags will be entered by your user, so take care to use something they will easily remember.  In general, short tags are better.
 
 Finally, if you'd like the tag to be required, pass a `true` as the third parameter:
 
@@ -99,8 +99,8 @@ Finally, if you'd like the tag to be required, pass a `true` as the third parame
 
 ## Getting results
 
-Once configured, you'll want results.  To get your results, pass your collection into the `Apply()` method.  This will yield an `IEnumerable<T>` with only the items which match your filter.
+Once configured, you'll probably want results.  To get them, pass your collection into the `Apply()` method.  This will yield an `IEnumerable<T>` with only the items which match your filter.
 
 	var results = filter.Apply(allProducts, "toy rubik");
 
-Additionally, just like the Linq extension methods, ThingFilter uses deferred execution, so once applied the results will update as the collection updates.
+Additionally, the `IEnumerable<T>` that is returned by ThingFilter is a Linq query at its core, so it uses deferred execution: once applied the results will update as the collection updates.  If you don't want to enumerate the query multiple times, remember to call `ToList()` on the results.
