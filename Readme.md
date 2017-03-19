@@ -58,6 +58,20 @@ Furthermore, a tagged value may be configured to match only if the tag is presen
 
 For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.  This allows queries like `price:19.99`. 
 
+### Additional operations
+
+ThingFilter also supports the following operators:
+
+- `:` Contains
+- `=` Equal To
+- `<>` Not Equal To
+- `<` Less Than
+- `<=` Less Than Or Equal To
+- `>` Greater Than
+- `>=` Greater Than Or Equal To
+
+Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (i.e. `<=true`, they will never be matched.
+
 ## Configuration
 
 Configuring the ThingFilter is performed through the `MatchOn()` method.  This method requires a function to return the value on which to filter.  Once obtained, the value will be converted to a string (via `ToString()`) so that the comparison to the query token can occur.

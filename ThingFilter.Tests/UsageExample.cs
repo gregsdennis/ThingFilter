@@ -249,6 +249,24 @@ namespace FilterTests
 		}
 
 		[TestMethod]
+		public void EqualToUntagged()
+		{
+			var filter = new ThingFilter<Subject>()
+				.MatchOn(s => s.Prop1, "prop")
+				.MatchOn(s => s.Exclude);
+			var collection = new List<Subject>
+				{
+					new Subject {Prop1 = "prop1", Exclude = "temp"},
+					new Subject {Prop1 = "prop1a", Exclude = "temp"},
+					new Subject {Prop1 = "temp", Exclude = "prop1a"},
+					new Subject {Prop1 = "temp", Exclude = "prop1"}
+				};
+
+			var filtered = filter.Apply(collection, "=prop1");
+			Assert.AreEqual(2, filtered.Count());
+		}
+
+		[TestMethod]
 		public void NotEqualTo()
 		{
 			var filter = new ThingFilter<Subject>()

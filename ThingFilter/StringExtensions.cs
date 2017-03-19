@@ -8,7 +8,7 @@ namespace ThingFilter
 {
 	internal static class StringExtensions
 	{
-		private static readonly Regex TermSplitPattern = new Regex(@"((?<tag>\w+)(?<operator>(:|=|<>|<|<=|>|>=)))?((""(?<quoted>(?:[^""\\]|\\.)*)"")|(?<unquoted>\w+))");
+		private static readonly Regex TermSplitPattern = new Regex(@"((?<tag>\w+)?(?<operator>(:|=|<>|<|<=|>|>=)))?((""(?<quoted>(?:[^""\\]|\\.)*)"")|(?<unquoted>\w+))");
 
 		public static bool Contains(this string source, string search, CompareOptions comparison, CultureInfo culture = null)
 		{
