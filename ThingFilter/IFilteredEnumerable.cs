@@ -2,9 +2,11 @@
 
 namespace ThingFilter
 {
-	public interface IFilteredEnumerable<out T> : IEnumerable<T>
+	public interface IFilterResult<out T>
 	{
-		IEnumerable<T> Results { get; }
+		T Item { get; }
+		IEnumerable<string> Matches { get; }
 		IEnumerable<string> Warnings { get; }
+		int Score { get; }
 	}
 }

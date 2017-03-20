@@ -49,10 +49,9 @@ namespace FilterTests
 			collection.Add(new Subject { Prop1 = "Prop5", Value = 6 });
 			Assert.AreEqual(4, filtered.Count());
 
-			filter.SortByRelevance();
-			var sorted = filter.Apply(collection, "prop1 6");
+			var sorted = filter.Apply(collection, "prop1 6").OrderByDescending(r => r.Score);
 
-			Assert.AreSame(collection[1], sorted.First());
+			Assert.AreSame(collection[1], sorted.First().Item);
 
 			var typeFilter = filter.Apply(collection, "ubj");
 
@@ -100,10 +99,9 @@ namespace FilterTests
 			collection.Add(new Subject { Prop1 = "Prop5", Value = 6 });
 			Assert.AreEqual(4, filtered.Count());
 
-			filter.SortByRelevance();
-			var sorted = collection.Filter(filter, "prop1 6");
+			var sorted = collection.Filter(filter, "prop1 6").OrderByDescending(r => r.Score);
 
-			Assert.AreSame(collection[1], sorted.First());
+			Assert.AreSame(collection[1], sorted.First().Item);
 
 			var typeFilter = collection.Filter(filter, "ubj");
 

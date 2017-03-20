@@ -45,8 +45,8 @@ namespace FilterTests
 
 			var results = filter.Apply(collection, "prop1 nest:te");
 			Assert.AreEqual(3, results.Count());
-			Assert.IsTrue(results.Contains(collection[2]));
-			Assert.IsFalse(results.Contains(collection[3]));
+			Assert.IsTrue(results.Select(r => r.Item).Contains(collection[2]));
+			Assert.IsFalse(results.Select(r => r.Item).Contains(collection[3]));
 		}
 
 		[TestMethod]
@@ -63,7 +63,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop:prop1");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 	}
 }

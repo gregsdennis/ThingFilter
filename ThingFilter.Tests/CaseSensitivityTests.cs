@@ -22,7 +22,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop1");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 	}
 }

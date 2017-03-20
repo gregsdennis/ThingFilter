@@ -1,23 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace ThingFilter
 {
-	internal class FilteredEnumerable<T> : IFilteredEnumerable<T>
+	internal class FilterResult<T> : IFilterResult<T>
 	{
-		public IEnumerable<T> Results { get; set; }
-
+		public T Item { get; set; }
 		public IEnumerable<string> Warnings { get; set; }
-
-		public IEnumerator<T> GetEnumerator()
-		{
-			return Results?.GetEnumerator() ?? Enumerable.Empty<T>().GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+		public IEnumerable<string> Matches { get; set; }
+		public int Score { get; set; }
 	}
 }

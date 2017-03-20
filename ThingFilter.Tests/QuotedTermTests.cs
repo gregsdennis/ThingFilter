@@ -43,7 +43,7 @@ namespace FilterTests
 
 			var results = filter.Apply(collection, "\"prop1 and\" prop4");
 			Assert.AreEqual(2, results.Count());
-			Assert.AreSame(collection[1], results.First());
+			Assert.AreSame(collection[1], results.First().Item);
 		}
 	}
 }

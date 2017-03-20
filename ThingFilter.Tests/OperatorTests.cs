@@ -36,7 +36,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop=5");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -52,7 +52,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop=true");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -68,7 +68,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop=false");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -102,7 +102,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<>prop1");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -118,7 +118,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<>6");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -134,7 +134,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<>true");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -150,7 +150,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<>false");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -166,7 +166,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<prop1");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -182,7 +182,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<10");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -199,7 +199,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<=prop1");
 			Assert.AreEqual(2, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -216,7 +216,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop<=10");
 			Assert.AreEqual(2, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -232,7 +232,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop>prop1");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -248,7 +248,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop>10");
 			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -265,7 +265,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop>=prop1");
 			Assert.AreEqual(2, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
 		[TestMethod]
@@ -282,7 +282,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop>=10");
 			Assert.AreEqual(2, filtered.Count());
-			Assert.AreSame(collection[1], filtered.First());
+			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 	}
 }
