@@ -46,7 +46,7 @@ namespace FilterTests
 
 			var filtered = filter.Apply(collection, "prop1 6");
 			Assert.AreEqual(3, filtered.Count());
-			collection.Add(new Subject {Prop1 = "Prop5", Value = 6});
+			collection.Add(new Subject { Prop1 = "Prop5", Value = 6 });
 			Assert.AreEqual(4, filtered.Count());
 
 			filter.SortByRelevance();
@@ -60,20 +60,54 @@ namespace FilterTests
 		}
 
 		[TestMethod]
-		public void CaseSensitive()
+		public void DoItWithExtensionMethod()
 		{
 			var filter = new ThingFilter<Subject>()
 				.MatchOn(s => s.Prop1)
-				.CaseSensitive();
+				.MatchOn(s => s.Value)
+				.MatchOn(s => s.Deep)
+				.MatchOn(s => s.Deep?.Value);
 			var collection = new List<Subject>
 				{
-					new Subject {Prop1 = "prop1"},
-					new Subject {Prop1 = "Prop1a"}
+					new Subject
+						{
+							Prop1 = "Prop1",
+							Value = 5,
+							Exclude = "Prop2"
+						},
+					new Subject
+						{
+							Prop1 = "Prop1a",
+							Value = 6,
+							Exclude = "Prop2"
+						},
+					new Subject
+						{
+							Prop1 = "Prop3",
+							Exclude = "Prop1",
+							Deep = new Subject {Value = 6}
+						},
+					new Subject
+						{
+							Prop1 = "Prop4",
+							Value = 8,
+							Exclude = "Prop1"
+						}
 				};
 
-			var filtered = filter.Apply(collection, "prop1");
-			Assert.AreEqual(1, filtered.Count());
-			Assert.AreSame(collection[0], filtered.First());
+			var filtered = collection.Filter(filter, "prop1 6");
+			Assert.AreEqual(3, filtered.Count());
+			collection.Add(new Subject { Prop1 = "Prop5", Value = 6 });
+			Assert.AreEqual(4, filtered.Count());
+
+			filter.SortByRelevance();
+			var sorted = collection.Filter(filter, "prop1 6");
+
+			Assert.AreSame(collection[1], sorted.First());
+
+			var typeFilter = collection.Filter(filter, "ubj");
+
+			Assert.AreEqual(1, typeFilter.Count());
 		}
 	}
 }
