@@ -6,16 +6,15 @@ using ThingFilter;
 namespace FilterTests
 {
 	[TestClass]
-	public class UsageExample
+	public class TaggingTests
 	{
+
 		[TestMethod]
-		public void DoIt()
+		public void TaggedSearch()
 		{
 			var filter = new ThingFilter<Subject>()
 				.MatchOn(s => s.Prop1)
-				.MatchOn(s => s.Value)
-				.MatchOn(s => s.Deep)
-				.MatchOn(s => s.Deep?.Value);
+				.MatchOn(s => s.Deep?.Prop1, "nest");
 			var collection = new List<Subject>
 				{
 					new Subject
@@ -34,44 +33,35 @@ namespace FilterTests
 						{
 							Prop1 = "Prop3",
 							Exclude = "Prop1",
-							Deep = new Subject {Value = 6}
+							Deep = new Subject {Prop1 = "test"}
 						},
 					new Subject
 						{
-							Prop1 = "Prop4",
+							Prop1 = "test",
 							Value = 8,
 							Exclude = "Prop1"
 						}
 				};
 
-			var filtered = filter.Apply(collection, "prop1 6");
-			Assert.AreEqual(3, filtered.Count());
-			collection.Add(new Subject {Prop1 = "Prop5", Value = 6});
-			Assert.AreEqual(4, filtered.Count());
-
-			filter.SortByRelevance();
-			var sorted = filter.Apply(collection, "prop1 6");
-
-			Assert.AreSame(collection[1], sorted.First());
-
-			var typeFilter = filter.Apply(collection, "ubj");
-
-			Assert.AreEqual(1, typeFilter.Count());
+			var results = filter.Apply(collection, "prop1 nest:te");
+			Assert.AreEqual(3, results.Count());
+			Assert.IsTrue(results.Contains(collection[2]));
+			Assert.IsFalse(results.Contains(collection[3]));
 		}
 
 		[TestMethod]
-		public void CaseSensitive()
+		public void RequiredTag()
 		{
 			var filter = new ThingFilter<Subject>()
-				.MatchOn(s => s.Prop1)
-				.CaseSensitive();
+				.MatchOn(s => s.Prop1, "prop", true)
+				.MatchOn(s => s.Exclude);
 			var collection = new List<Subject>
 				{
 					new Subject {Prop1 = "prop1"},
-					new Subject {Prop1 = "Prop1a"}
+					new Subject {Exclude = "Prop1a"}
 				};
 
-			var filtered = filter.Apply(collection, "prop1");
+			var filtered = filter.Apply(collection, "prop:prop1");
 			Assert.AreEqual(1, filtered.Count());
 			Assert.AreSame(collection[0], filtered.First());
 		}
