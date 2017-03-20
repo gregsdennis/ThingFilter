@@ -38,7 +38,7 @@ namespace ThingFilter
 			return this;
 		}
 
-		public IEnumerable<T> Apply(IEnumerable<T> collection, string text)
+		public IFilteredEnumerable<T> Apply(IEnumerable<T> collection, string text)
 		{
 			var tokens = text.GetTokens().ToList();
 
@@ -54,16 +54,24 @@ namespace ThingFilter
 					Score = i.Values.Intersect(tokens, _comparer).Count()
 				});
 
-			if (_sort)
-				return results.GroupBy(i => i.Score)
-				              .OrderByDescending(g => g.Key)
-				              .Where(g => g.Key != 0)
-				              .SelectMany(g => g.Select(i => i.Item))
-				              .Distinct();
+			IEnumerable<T> filteredResults;
 
-			return results.Where(i => i.Score != 0)
-			              .Select(g => g.Item)
-			              .Distinct();
+			if (_sort)
+				filteredResults = results.GroupBy(i => i.Score)
+										 .OrderByDescending(g => g.Key)
+										 .Where(g => g.Key != 0)
+										 .SelectMany(g => g.Select(i => i.Item))
+										 .Distinct();
+			else
+				filteredResults = results.Where(i => i.Score != 0)
+										 .Select(g => g.Item)
+										 .Distinct();
+
+			// TODO: Create warnings
+			return new FilteredEnumerable<T>
+			{
+				Results = filteredResults
+			};
 		}
 
 		private IEnumerable<TaggedValue> _GetValues<TValue>(TValue value)

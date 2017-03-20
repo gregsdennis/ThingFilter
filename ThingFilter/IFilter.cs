@@ -8,6 +8,6 @@ namespace ThingFilter
 		IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false);
 		IFilter<T> CaseSensitive();
 		IFilter<T> SortByRelevance();
-		IEnumerable<T> Apply(IEnumerable<T> collection, string query);
+		IFilteredEnumerable<T> Apply(IEnumerable<T> collection, string query);
 	}
 }
