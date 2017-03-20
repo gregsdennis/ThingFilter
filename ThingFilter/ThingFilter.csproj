@@ -44,6 +44,7 @@
     <Compile Include="EqualToMatchEvaluator.cs" />
     <Compile Include="GreaterThanEqualMatchEvaluator.cs" />
     <Compile Include="GreaterThanMatchEvaluator.cs" />
+    <Compile Include="IFilter.cs" />
     <Compile Include="LessThanEqualMatchEvaluator.cs" />
     <Compile Include="LessThanMatchEvaluator.cs" />
     <Compile Include="IMatchEvaluator.cs" />

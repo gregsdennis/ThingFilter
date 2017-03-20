@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace ThingFilter
 {
-	public class ThingFilter<T>
+	public class ThingFilter<T> : IFilter<T>
 	{
 		private readonly List<TaggedDelegate> _allTargets = new List<TaggedDelegate>();
 		private readonly TaggedValueComparer _comparer = new TaggedValueComparer();
 		private bool _sort;
 
-		public ThingFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false)
+		public IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false)
 		{
 			tag = tag?.Trim();
 			var tagIsEmpty = string.IsNullOrEmpty(tag);
@@ -26,13 +26,13 @@ namespace ThingFilter
 			return this;
 		}
 
-		public ThingFilter<T> CaseSensitive()
+		public IFilter<T> CaseSensitive()
 		{
 			_comparer.IsCaseSensitive = true;
 			return this;
 		}
 
-		public ThingFilter<T> SortByRelevance()
+		public IFilter<T> SortByRelevance()
 		{
 			_sort = true;
 			return this;
