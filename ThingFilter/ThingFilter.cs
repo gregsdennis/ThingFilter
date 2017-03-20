@@ -58,20 +58,20 @@ namespace ThingFilter
 
 			if (_sort)
 				filteredResults = results.GroupBy(i => i.Score)
-										 .OrderByDescending(g => g.Key)
-										 .Where(g => g.Key != 0)
-										 .SelectMany(g => g.Select(i => i.Item))
-										 .Distinct();
+				                         .OrderByDescending(g => g.Key)
+				                         .Where(g => g.Key != 0)
+				                         .SelectMany(g => g.Select(i => i.Item))
+				                         .Distinct();
 			else
 				filteredResults = results.Where(i => i.Score != 0)
-										 .Select(g => g.Item)
-										 .Distinct();
+				                         .Select(g => g.Item)
+				                         .Distinct();
 
 			// TODO: Create warnings
 			return new FilteredEnumerable<T>
-			{
-				Results = filteredResults
-			};
+				{
+					Results = filteredResults
+				};
 		}
 
 		private IEnumerable<TaggedValue> _GetValues<TValue>(TValue value)
