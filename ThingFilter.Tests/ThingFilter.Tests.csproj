@@ -56,6 +56,7 @@
     <Compile Include="QuotedTermTests.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="TaggingTests.cs" />
+    <Compile Include="UnmatchedTests.cs" />
     <Compile Include="UsageExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

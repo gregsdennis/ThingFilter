@@ -8,7 +8,7 @@ namespace ThingFilter
 	{
 		private readonly List<TaggedDelegate> _allTargets = new List<TaggedDelegate>();
 		private readonly TaggedValueComparer _comparer = new TaggedValueComparer();
-		private bool _sort;
+		private bool _includeUnmatched;
 
 		public IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false)
 		{
@@ -32,6 +32,12 @@ namespace ThingFilter
 			return this;
 		}
 
+		public IFilter<T> IncludeUnmatched()
+		{
+			_includeUnmatched = true;
+			return this;
+		}
+
 		public IEnumerable<IFilterResult<T>> Apply(IEnumerable<T> collection, string text)
 		{
 			var tokens = text.GetTokens().ToList();
@@ -48,15 +54,8 @@ namespace ThingFilter
 					Score = i.Values.Intersect(tokens, _comparer).Count()
 				});
 
-			if (_sort)
-				results = results.GroupBy(i => i.Score)
-				                 .OrderByDescending(g => g.Key)
-				                 .Where(g => g.Key != 0)
-				                 .SelectMany(g => g)
-				                 .Distinct();
-			else
-				results = results.Where(i => i.Score != 0)
-				                 .Distinct();
+			if (!_includeUnmatched)
+				results = results.Where(i => i.Score != 0);
 
 			// TODO: Create warnings
 			return results;

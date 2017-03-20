@@ -7,6 +7,7 @@ namespace ThingFilter
 	{
 		IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false);
 		IFilter<T> CaseSensitive();
+		IFilter<T> IncludeUnmatched();
 		IEnumerable<IFilterResult<T>> Apply(IEnumerable<T> collection, string query);
 	}
 }
