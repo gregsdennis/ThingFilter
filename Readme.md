@@ -58,7 +58,7 @@ Furthermore, a tagged value may be configured to match only if the tag is presen
 
 For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.
 
-### Additional operations
+### Out-of-the-box operations
 
 ThingFilter also supports the following operators:
 
@@ -71,6 +71,14 @@ ThingFilter also supports the following operators:
 - `>=` Greater Than Or Equal To
 
 Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (e.g. `<=true`), they will never be matched.
+
+### Custom operations
+
+The operations recognized by ThingFilter can be customized through the use of the `AddEvaluator()` and `RemoveEvaluator()` methods.
+
+`AddEvaluator()` takes an implementation of `IMatchEvaluator`.  This interface defines the matching algorithm for strings, numbers (represented by `double`), and boolean values.  At a minimum, the string matching should be implemented.  If the other data types are not valid for your evaluator, they should simply return `false`.
+
+`RemoveEvaluator()` takes a string representing the operator to be removed.  For example, if you want your filter to not support the *Not Equal To* operator, you would pass `"<>"`.
 
 ## Configuration
 
@@ -91,11 +99,18 @@ To allow the user to specify a tag, you can provide it as a second parameter:
 
 The tag doesn't have to match the name of the value, although it's sometimes helpful.  It's important to remember, though, that tags in the query token must be exactly equal to the value specified here.  Also, these tags will be entered by your user, so take care to use something they will easily remember.  In general, short tags are better.
 
-Finally, if you'd like the tag to be required, pass a `true` as the third parameter:
+If you'd like the tag to be required, pass a `true` as the third parameter:
 
 	var filter = new ThingFilter<Product>().MatchOn(p => p.Title, "title", true);
 
 ><small>**NOTE** The `MatchOn()` method will throw an exception if you specify that the tag is required without specifying a non-empty, non-whitespace tag.</small>
+
+Finally, if you would like to add a particular weighting to matching a particular value, you can supply the weight as the final argument.  The default weight is 1.
+
+	// creates matching on the Title property, requires the tag "title", and adds a weighting of 2.
+	var filter = new ThingFilter<Product>().MatchOn(p => p.Title, "title", true, 2);
+	// creates matching on the Title property and adds a weighting of 2, no tag specified.
+	var filter = new ThingFilter<Product>().MatchOn(p => p.Title, weight: 2);
 
 ### Case sensitivity
 
