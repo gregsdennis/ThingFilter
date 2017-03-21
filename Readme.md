@@ -74,7 +74,7 @@ Please note that the *Contains* operator is only meaningful for string values, a
 
 ## Configuration
 
-Configuring the ThingFilter is performed through the `MatchOn()` method.  This method requires a function to return the value on which to filter.  Once obtained, the value will be checked for boolean and numeric types.  If the value not one of these types, it is converted to a string (via `ToString()`) and matching continues.
+Configuring the ThingFilter is performed primarily through the `MatchOn()` method.  This method requires a function to return the value on which to filter.  Once obtained, the value will be checked for boolean and numeric types.  If the value not one of these types, it is converted to a string (via `ToString()`) and matching continues.
 
 In it's simplest form, a value will be matched against all untagged query tokens:
 
@@ -97,10 +97,16 @@ Finally, if you'd like the tag to be required, pass a `true` as the third parame
 
 ><small>**NOTE** The `MatchOn()` method will throw an exception if you specify that the tag is required without specifying a non-empty, non-whitespace tag.</small>
 
+### Case sensitivity
+
+By default, all string comparisons are case-insensitive.  To specify a case-sensitive comparison, you can use the `CaseSensitive()` method.
+
 ## Getting results
 
-Once configured, you'll probably want results.  To get them, pass your collection into the `Apply()` method.  This will yield an `IEnumerable<T>` with only the items which match your filter.
+Once configured, you'll probably want results.  To get them, pass your collection into the `Apply()` method.  This will yield an `IEnumerable<IFilterResult<T>>` with only the items which match your filter along with a few extra data points.
 
 	var results = filter.Apply(allProducts, "toy rubik");
 
-Additionally, the `IEnumerable<T>` that is returned by ThingFilter is a Linq query at its core, so it uses deferred execution: once applied the results will update as the collection updates.  If you don't want to enumerate the query multiple times, remember to call `ToList()` on the results.
+The `IFilterResult<T>` object will contain the item that was matched as well as the item's score.  (Messages regarding the match is a pending feature.)  The score is determined by how many tokens were matched for that item.  This is useful for when you want to get a ranked list.
+
+Additionally, the return value of ThingFilter is a Linq query at its core, so it uses deferred execution: once applied the results will update as the collection updates.  If you don't want to enumerate the query multiple times, remember to call `ToList()` on the results.
