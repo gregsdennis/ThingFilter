@@ -58,6 +58,8 @@ Furthermore, a tagged value may be configured to match only if the tag is presen
 
 For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.
 
+><small>**NOTE** You may experience some unexpected behavior if your objects don't override `ToString()`.  The default implementation (from `object`) simply returns the type name.  This would cause matching on that value rather than what you intent. To remedy this, be sure you either override `ToString()` to a queryable value or configure your match to use some other value.</small>
+
 ### Out-of-the-box operations
 
 ThingFilter also supports the following operators:
@@ -70,7 +72,9 @@ ThingFilter also supports the following operators:
 - `>` Greater Than
 - `>=` Greater Than Or Equal To
 
-Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (e.g. `<=true`), they will never be matched.
+Please note that the *Contains* operator is only meaningful for string values, and the inequality operators (*Less Than*, etc.) are not meaningful for boolean values.  When these operators are used on meaningless values (e.g. `<=true` for a boolean value), they will never be matched.
+
+><small>**NOTE** The query token `<=true` is perfectly acceptable as a string comparison.</small>
 
 ### Custom operations
 
