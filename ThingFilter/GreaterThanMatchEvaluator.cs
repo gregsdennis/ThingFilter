@@ -4,7 +4,7 @@ namespace ThingFilter
 {
 	internal class GreaterThanMatchEvaluator : IMatchEvaluator
 	{
-		public TokenOperator Operation => TokenOperator.GreaterThan;
+		public string Operation => ">";
 
 		public bool Match(string query, string target, bool caseSensitive)
 		{

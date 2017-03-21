@@ -4,7 +4,7 @@ namespace ThingFilter
 {
 	internal class EqualToMatchEvaluator : IMatchEvaluator
 	{
-		public TokenOperator Operation => TokenOperator.EqualTo;
+		public string Operation => "=";
 
 		public bool Match(string query, string target, bool caseSensitive)
 		{

@@ -6,7 +6,7 @@ namespace ThingFilter
 {
 	internal class TaggedValueComparer : IEqualityComparer<TaggedValue>
 	{
-		private static readonly IEnumerable<IMatchEvaluator> Evaluators =
+		public List<IMatchEvaluator> Evaluators { get; } =
 			new List<IMatchEvaluator>
 				{
 					new ContainsMatchEvaluator(),
@@ -34,11 +34,10 @@ namespace ThingFilter
 			return 0;
 		}
 
-		private bool _PerformComparison(string query, object target, TokenOperator operation)
+		private bool _PerformComparison(string query, object target, string operation)
 		{
 			var evaluator = Evaluators.FirstOrDefault(e => e.Operation == operation);
-			if (evaluator == null)
-				throw new ArgumentOutOfRangeException(nameof(operation));
+			if (evaluator == null) return false;
 
 			if (target is bool)
 			{

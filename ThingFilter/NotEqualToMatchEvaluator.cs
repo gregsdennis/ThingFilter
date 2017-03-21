@@ -4,7 +4,7 @@ namespace ThingFilter
 {
 	internal class NotEqualToMatchEvaluator : IMatchEvaluator
 	{
-		public TokenOperator Operation => TokenOperator.NotEqualTo;
+		public string Operation => "<>";
 
 		public bool Match(string query, string target, bool caseSensitive)
 		{

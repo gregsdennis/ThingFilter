@@ -4,7 +4,7 @@ namespace ThingFilter
 {
 	internal class ContainsMatchEvaluator : IMatchEvaluator
 	{
-		public TokenOperator Operation => TokenOperator.Contains;
+		public string Operation => ":";
 
 		public bool Match(string query, string target, bool caseSensitive)
 		{

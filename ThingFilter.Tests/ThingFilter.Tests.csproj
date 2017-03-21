@@ -59,6 +59,7 @@
     <Compile Include="UnmatchedTests.cs" />
     <Compile Include="UsageExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserDefinedMatchesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThingFilter\ThingFilter.csproj">

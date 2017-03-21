@@ -1,8 +1,8 @@
 ﻿namespace ThingFilter
 {
-	internal interface IMatchEvaluator
+	public interface IMatchEvaluator
 	{
-		TokenOperator Operation { get; }
+		string Operation { get; }
 
 		bool Match(string query, string target, bool caseSensitive);
 		bool Match(double query, double target);
