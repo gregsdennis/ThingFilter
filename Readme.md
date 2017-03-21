@@ -76,7 +76,7 @@ Please note that the *Contains* operator is only meaningful for string values, a
 
 The operations recognized by ThingFilter can be customized through the use of the `AddEvaluator()` and `RemoveEvaluator()` methods.
 
-`AddEvaluator()` takes an implementation of `IMatchEvaluator`.  This interface defines the matching algorithm for strings, numbers (represented by `double`), and boolean values.  At a minimum, the string matching should be implemented.  If the other data types are not valid for your evaluator, they should simply return `false`.
+`AddEvaluator()` takes an implementation of `IMatchEvaluator`.  This interface defines the matching algorithm for strings, numbers (represented by `double`), and boolean values as well as the operator that identifies it.  At a minimum, the string matching should be implemented.  If the other data types are not valid for your evaluator, they should simply return `false`.
 
 `RemoveEvaluator()` takes a string representing the operator to be removed.  For example, if you want your filter to not support the *Not Equal To* operator, you would pass `"<>"`.
 
