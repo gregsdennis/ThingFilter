@@ -1,4 +1,6 @@
-param([String]$nuspecfile)
+param([String]$nuspecfile, [String]$configuration)
+
+if ($configuration -ne 'Release') { exit 0 }
 
 Write-Output "Post-build running..."
 
