@@ -11,7 +11,7 @@ namespace ThingFilter
 		private readonly TaggedValueComparer _comparer = new TaggedValueComparer();
 		private bool _includeUnmatched;
 
-		public IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false)
+		public IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false, int weight = 1)
 		{
 			if (valueFunc == null)
 				throw new ArgumentNullException(nameof(valueFunc));
@@ -25,7 +25,8 @@ namespace ThingFilter
 				{
 					Delegate = valueFunc,
 					Tag = tag,
-					RequireTag = requireTag
+					RequireTag = requireTag,
+					Weight = weight
 				});
 			return this;
 		}
@@ -81,7 +82,7 @@ namespace ThingFilter
 			var results = values.Select(i => new FilterResult<T>
 				{
 					Item = i.Item,
-					Score = i.Values.Intersect(tokens, _comparer).Count()
+					Score = i.Values.Intersect(tokens, _comparer).Sum(v => v.Weight)
 				});
 
 			if (!_includeUnmatched)
@@ -97,7 +98,8 @@ namespace ThingFilter
 				{
 					Value = e.Delegate.DynamicInvoke(value),
 					Tag = e.Tag,
-					RequiresTag = e.RequireTag
+					RequiresTag = e.RequireTag,
+					Weight = e.Weight
 				});
 
 			return values;

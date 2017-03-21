@@ -9,5 +9,6 @@ namespace ThingFilter
 		public bool RequiresTag { get; set; }
 		public string Operator { get; set; }
 		public List<string> Warnings { get; } = new List<string>();
+		public int Weight { get; set; }
 	}
 }

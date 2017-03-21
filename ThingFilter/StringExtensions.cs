@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Globalization;
 
 namespace ThingFilter
 {
 	internal static class StringExtensions
 	{
-		public const string TermSplitPatternFormat = @"((?<tag>\w+)?(?<operator>({0})))?((""(?<quoted>(?:[^""\\]|\\.)*)"")|(?<unquoted>\w+))";
+		public const string TermSplitPatternFormat = @"(^|\s)((?<tag>\w+)?(?<operator>({0})))?((""(?<quoted>(?:[^""\\]|\\.)*)"")|(?<unquoted>\w+))";
 
 		public static bool Contains(this string source, string search, CompareOptions comparison, CultureInfo culture = null)
 		{

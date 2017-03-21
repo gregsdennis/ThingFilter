@@ -36,7 +36,9 @@ namespace ThingFilter
 
 		private bool _PerformComparison(string query, object target, string operation)
 		{
-			var evaluator = Evaluators.FirstOrDefault(e => e.Operation == operation);
+			var evaluator = string.IsNullOrEmpty(operation)
+				                ? Evaluators.FirstOrDefault()
+				                : Evaluators.FirstOrDefault(e => e.Operation == operation);
 			if (evaluator == null) return false;
 
 			if (target is bool)

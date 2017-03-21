@@ -54,6 +54,7 @@
     <Compile Include="DataTypeTests.cs" />
     <Compile Include="OperatorTests.cs" />
     <Compile Include="QuotedTermTests.cs" />
+    <Compile Include="ScoreWeightingTests.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="TaggingTests.cs" />
     <Compile Include="UnmatchedTests.cs" />
