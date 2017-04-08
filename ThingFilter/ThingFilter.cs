@@ -154,7 +154,8 @@ namespace ThingFilter
 			var pattern = new Regex(string.Format(StringExtensions.TermSplitPatternFormat,
 			                                      string.Join("|", _comparer.Evaluators.Select(e => e.Operation))));
 			var matches = pattern.Matches(source);
-			return matches.Cast<Match>().Select(_ParseToken);
+			var individuals = matches.Cast<Match>().Select(_ParseToken);
+			return _RejoinAnds(individuals);
 		}
 
 		private static TaggedValue _ParseToken(Match m)
@@ -165,11 +166,55 @@ namespace ThingFilter
 			var tag = m.Groups["tag"]?.Value.Trim();
 			var operatorString = m.Groups["operator"]?.Value.Trim();
 			return new TaggedValue
+				{
+					Tag = string.IsNullOrEmpty(tag) ? null : tag,
+					Value = term,
+					Operator = operatorString
+				};
+		}
+
+		private static IEnumerable<TaggedValue> _RejoinAnds(IEnumerable<TaggedValue> values)
+		{
+			var list = values.ToList();
+			if (!list.Any()) return Enumerable.Empty<TaggedValue>();
+			if (list[0].Value?.ToString() == "AND")
+				throw new ArgumentException("Cannot start query with an 'AND' operator.");
+			var index = 0;
+			var foundAnd = false;
+			var joined = new List<TaggedValue>();
+			var newValues = new List<TaggedValue>();
+			while (index < list.Count)
 			{
-				Tag = string.IsNullOrEmpty(tag) ? null : tag,
-				Value = term,
-				Operator = operatorString
-			};
+				if (foundAnd)
+				{
+					if (list[index].Value?.ToString() == "AND")
+						throw new ArgumentException("Cannot start query with an 'AND' operator.");
+					joined.Add(list[index]);
+					foundAnd = false;
+				}
+				else if (list[index].Value?.ToString() == "AND")
+					foundAnd = true;
+				else
+				{
+					if (joined.Any())
+					{
+						newValues.Add(new TaggedValue
+							{
+								Operator = "AND",
+								Value = joined
+							});
+						joined = new List<TaggedValue>();
+					}
+					joined.Add(list[index]);
+				}
+				index++;
+			}
+			newValues.Add(new TaggedValue
+				{
+					Operator = "AND",
+					Value = joined
+				});
+			return newValues;
 		}
 	}
 }

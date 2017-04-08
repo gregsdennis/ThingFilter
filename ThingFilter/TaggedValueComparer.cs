@@ -15,7 +15,7 @@ namespace ThingFilter
 					new LessThanMatchEvaluator(),
 					new LessThanEqualMatchEvaluator(),
 					new GreaterThanMatchEvaluator(),
-					new GreaterThanEqualMatchEvaluator()
+					new GreaterThanEqualMatchEvaluator(),
 				};
 
 		public bool IsCaseSensitive { get; set; }
@@ -26,7 +26,10 @@ namespace ThingFilter
 			if (query.Tag == null && target.Tag != null && target.RequiresTag) return false;
 			if (query.Tag != null && query.Tag != target.Tag) return false;
 
-			var contains = _PerformComparison((string) query.Value, target.Value, query.Operator);
+			var value = query.Value as string;
+			if (value == null) return false;
+
+			var contains = _PerformComparison(value, target.Value, query.Operator);
 			return contains;
 		}
 		public int GetHashCode(TaggedValue obj)
