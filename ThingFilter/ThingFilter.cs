@@ -198,22 +198,29 @@ namespace ThingFilter
 				{
 					if (joined.Any())
 					{
-						newValues.Add(new TaggedValue
-							{
-								Operator = "AND",
-								Value = joined
-							});
+						if (joined.Count == 1)
+							newValues.Add(joined[0]);
+						else
+							newValues.Add(new TaggedValue
+								{
+									Operator = "AND",
+									Value = joined
+								});
 						joined = new List<TaggedValue>();
 					}
 					joined.Add(list[index]);
 				}
 				index++;
 			}
-			newValues.Add(new TaggedValue
-				{
-					Operator = "AND",
-					Value = joined
-				});
+			if (joined.Count == 1)
+				newValues.Add(joined[0]);
+			else
+				newValues.Add(new TaggedValue
+					{
+						Operator = "AND",
+						Value = joined
+					});
+
 			return newValues;
 		}
 	}
