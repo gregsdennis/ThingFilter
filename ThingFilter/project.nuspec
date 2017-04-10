@@ -11,7 +11,11 @@
 		<projectUrl>https://www.github.com/gregsdennis/thingfilter</projectUrl>
 		<licenseUrl>https://raw.githubusercontent.com/gregsdennis/ThingFilter/master/LICENSE</licenseUrl>
 		<releaseNotes>
-			ThingFilter is here!
+			v0.2.0
+			Added "AND" queries.
+			
+			v0.1.0
+			Initial release!
 		</releaseNotes>
 		<tags>filter search fluent</tags>
 	</metadata>
