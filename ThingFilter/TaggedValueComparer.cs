@@ -20,6 +20,16 @@ namespace ThingFilter
 
 		public bool IsCaseSensitive { get; set; }
 
+		public int GetScore(List<List<TaggedValue>> queries, List<TaggedValue> targets)
+		{
+			return queries.Sum(query =>
+				{
+					var local = query.Sum(q => targets.Sum(t => (Equals(q, t) ? 1 : 0) * t.Weight));
+					var matches = query.All(q => targets.Any(t => Equals(q, t)));
+					return matches ? local : 0;
+				});
+		}
+
 		public bool Equals(TaggedValue query, TaggedValue target)
 		{
 			if (target.Value == null) return false;
@@ -29,9 +39,10 @@ namespace ThingFilter
 			var value = query.Value as string;
 			if (value == null) return false;
 
-			var contains = _PerformComparison(value, target.Value, query.Operator);
-			return contains;
+			var matches = _PerformComparison(value, target.Value, query.Operator);
+			return matches;
 		}
+
 		public int GetHashCode(TaggedValue obj)
 		{
 			return 0;

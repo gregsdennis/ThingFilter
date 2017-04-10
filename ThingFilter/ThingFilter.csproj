@@ -52,6 +52,7 @@
     <Compile Include="LessThanMatchEvaluator.cs" />
     <Compile Include="IMatchEvaluator.cs" />
     <Compile Include="NotEqualToMatchEvaluator.cs" />
+    <Compile Include="ResultsComparer.cs" />
     <Compile Include="TaggedValueComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensions.cs" />

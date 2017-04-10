@@ -3,7 +3,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ThingFilter;
 
-namespace FilterTests {
+namespace FilterTests
+{
 	[TestClass]
 	public class AndQueryTests
 	{
@@ -11,7 +12,7 @@ namespace FilterTests {
 		public void AndQuery()
 		{
 			var filter = new ThingFilter<Subject>()
-				.MatchOn(s => s.Prop1)
+				.MatchOn(s => s.Prop1, weight: 2)
 				.MatchOn(s => s.Exclude);
 			var collection = new List<Subject>
 				{
@@ -24,6 +25,7 @@ namespace FilterTests {
 			var filtered = filter.Apply(collection, "prop1 AND prop2");
 			Assert.AreEqual(1, filtered.Count());
 			Assert.AreSame(collection[0], filtered.First().Item);
+			Assert.AreEqual(3, filtered.First().Score);
 		}
 		[TestMethod]
 		public void NotAnAndQuery()
