@@ -15,10 +15,20 @@ namespace ThingFilter
 					new LessThanMatchEvaluator(),
 					new LessThanEqualMatchEvaluator(),
 					new GreaterThanMatchEvaluator(),
-					new GreaterThanEqualMatchEvaluator()
+					new GreaterThanEqualMatchEvaluator(),
 				};
 
 		public bool IsCaseSensitive { get; set; }
+
+		public int GetScore(List<List<TaggedValue>> queries, List<TaggedValue> targets)
+		{
+			return queries.Sum(query =>
+				{
+					var local = query.Sum(q => targets.Sum(t => (Equals(q, t) ? 1 : 0) * t.Weight));
+					var matches = query.All(q => targets.Any(t => Equals(q, t)));
+					return matches ? local : 0;
+				});
+		}
 
 		public bool Equals(TaggedValue query, TaggedValue target)
 		{
@@ -26,9 +36,13 @@ namespace ThingFilter
 			if (query.Tag == null && target.Tag != null && target.RequiresTag) return false;
 			if (query.Tag != null && query.Tag != target.Tag) return false;
 
-			var contains = _PerformComparison((string) query.Value, target.Value, query.Operator);
-			return contains;
+			var value = query.Value as string;
+			if (value == null) return false;
+
+			var matches = _PerformComparison(value, target.Value, query.Operator);
+			return matches;
 		}
+
 		public int GetHashCode(TaggedValue obj)
 		{
 			return 0;

@@ -4,7 +4,7 @@
 		<id>ThingFilter</id>
 		<version>0.1.0</version>
 		<description>
-			A string-based collection filter for .Net with an easy-to-use fluent interface.
+			A string-based collection filter for .Net with an easy-to-use fluent interface. It's like Google for your objects!
 		</description>
 		<authors>gregsdennis</authors>
 		<copyright>Copyright © 2016 Little Crab Solutions</copyright>
