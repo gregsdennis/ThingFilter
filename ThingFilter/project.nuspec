@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>ThingFilter</id>
-		<version>0.2.0</version>
+		<version>1.0.0</version>
 		<description>
 			A string-based collection filter for .Net with an easy-to-use fluent interface. It's like Google for your objects!
 		</description>
@@ -11,11 +11,8 @@
 		<projectUrl>https://www.github.com/gregsdennis/thingfilter</projectUrl>
 		<licenseUrl>https://raw.githubusercontent.com/gregsdennis/ThingFilter/master/LICENSE</licenseUrl>
 		<releaseNotes>
-			v0.2.0
-			Added "AND" queries.
-			
-			v0.1.0
-			Initial release!
+			v1.0.0
+			Official initial release!
 		</releaseNotes>
 		<tags>filter search fluent</tags>
 	</metadata>
