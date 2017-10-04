@@ -18,6 +18,7 @@ Initial release (PCL)</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>ThingFilter.pfx</AssemblyOriginatorKeyFile>
+    <PackageIconUrl>https://github.com/gregsdennis/ThingFilter/blob/master/filter.png</PackageIconUrl>
   </PropertyGroup>
 
 </Project>
