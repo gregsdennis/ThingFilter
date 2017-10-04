@@ -36,7 +36,8 @@ namespace ThingFilter
 			if (query.Tag == null && target.Tag != null && target.RequiresTag) return false;
 			if (query.Tag != null && query.Tag != target.Tag) return false;
 
-			if (!(query.Value is string value)) return false;
+			var value = query.Value as string;
+			if (value == null) return false;
 
 			var matches = _PerformComparison(value, target.Value, query.Operator);
 			return matches;
@@ -50,21 +51,24 @@ namespace ThingFilter
 		private bool _PerformComparison(string query, object target, string operation)
 		{
 			var evaluator = string.IsNullOrEmpty(operation)
-								? Evaluators.FirstOrDefault()
-								: Evaluators.FirstOrDefault(e => e.Operation == operation);
+				                ? Evaluators.FirstOrDefault()
+				                : Evaluators.FirstOrDefault(e => e.Operation == operation);
 			if (evaluator == null) return false;
 
-			if (target is bool b)
-				return bool.TryParse(query, out var boolQuery) && evaluator.Match(boolQuery, b);
-
-			if (target is sbyte || target is byte || target is char ||
-				target is short || target is ushort ||
-				target is int || target is uint ||
-				target is long || target is ulong ||
-				target is float || target is double ||
-				target is decimal)
+			if (target is bool)
 			{
-				return double.TryParse(query, out var doubleQuery) && evaluator.Match(doubleQuery, Convert.ToDouble(target));
+				bool boolQuery;
+				return bool.TryParse(query, out boolQuery) && evaluator.Match(boolQuery, (bool) target);
+			}
+			if (target is sbyte || target is byte || target is char ||
+			    target is short || target is ushort ||
+			    target is int || target is uint ||
+			    target is long || target is ulong ||
+			    target is float || target is double ||
+			    target is decimal)
+			{
+				double doubleQuery;
+				return double.TryParse(query, out doubleQuery) && evaluator.Match(doubleQuery, Convert.ToDouble(target));
 			}
 
 			return evaluator.Match(query, target.ToString(), IsCaseSensitive);

@@ -28,7 +28,8 @@ namespace ThingFilter
 		/// <exception cref="ArgumentException">Thrown if <paramref name="tag"/> is null but <paramref name="requireTag"/> is <c>true</c>.</exception>
 		public IFilter<T> MatchOn<TProp>(Func<T, TProp> valueFunc, string tag = null, bool requireTag = false, int weight = 1)
 		{
-			if (valueFunc == null) throw new ArgumentNullException(nameof(valueFunc));
+			if (valueFunc == null)
+				throw new ArgumentNullException(nameof(valueFunc));
 
 			tag = tag?.Trim();
 			var tagIsEmpty = string.IsNullOrEmpty(tag);
@@ -73,7 +74,8 @@ namespace ThingFilter
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="evaluator"/> is null.</exception>
 		public IFilter<T> AddEvaluator(IMatchEvaluator evaluator)
 		{
-			if (evaluator == null) throw new ArgumentNullException();
+			if (evaluator == null)
+				throw new ArgumentNullException();
 
 			_comparer.Evaluators.Add(evaluator);
 			return this;
@@ -88,8 +90,10 @@ namespace ThingFilter
 		/// <exception cref="ArgumentException">Thrown if <paramref name="operator"/> is empty or whitespace.</exception>
 		public IFilter<T> RemoveEvaluator(string @operator)
 		{
-			if (@operator == null) throw new ArgumentNullException(nameof(@operator));
-			if (string.IsNullOrWhiteSpace(@operator)) throw new ArgumentException("operator must be non-empty and non-whitespace.");
+			if (@operator == null)
+				throw new ArgumentNullException(nameof(@operator));
+			if (string.IsNullOrWhiteSpace(@operator))
+				throw new ArgumentException("operator must be non-empty and non-whitespace.");
 
 			var evaluator = _comparer.Evaluators.FirstOrDefault(e => e.Operation == @operator);
 			_comparer.Evaluators.Remove(evaluator);
@@ -106,9 +110,12 @@ namespace ThingFilter
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> is null.</exception>
 		public IEnumerable<IFilterResult<T>> Apply(IEnumerable<T> collection, string query)
 		{
-			if (collection == null) throw new ArgumentNullException(nameof(collection));
-			if (query == null) throw new ArgumentNullException(nameof(query));
+			if (collection == null)
+				throw new ArgumentNullException(nameof(collection));
+			if (query == null)
+				throw new ArgumentNullException(nameof(query));
 
+			// TODO: return List<List<TaggedValue>>
 			var tokens = _GetTokens(query);
 
 			var values = collection.Select(i => new
