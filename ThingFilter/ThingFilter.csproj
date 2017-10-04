@@ -17,7 +17,7 @@ Initial release (PCL)</PackageReleaseNotes>
     <PackageLicenseUrl>https://github.com/gregsdennis/ThingFilter/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>ThingFilter.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>ThingFilter.snk</AssemblyOriginatorKeyFile>
     <PackageIconUrl>https://github.com/gregsdennis/ThingFilter/blob/master/filter.png</PackageIconUrl>
   </PropertyGroup>
 
