@@ -29,7 +29,7 @@ if not "%errorlevel%"=="0" goto failure
 REM Run Tests
 
 set nunit="packages\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe"
-"%nunit%" ThingFilter.Tests\bin\%config%\ThingFilter.Tests.dll
+%nunit% ThingFilter.Tests\bin\%config%\ThingFilter.Tests.dll
 if not "%errorlevel%"=="0" goto failure
 
 REM Package
