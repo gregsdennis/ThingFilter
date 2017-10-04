@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class AndQueryTests
 	{
-		[TestMethod]
+		[Test]
 		public void AndQuery()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -26,7 +26,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 			Assert.AreEqual(3, filtered.First().Score);
 		}
-		[TestMethod]
+		[Test]
 		public void NotAnAndQuery()
 		{
 			var filter = new ThingFilter<Subject>()

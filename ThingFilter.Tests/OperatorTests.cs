@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class OperatorTests
 	{
-		[TestMethod]
+		[Test]
 		public void EqualToString()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -22,7 +22,7 @@ namespace ThingFilter.Tests
 			Assert.AreEqual(1, filtered.Count());
 		}
 
-		[TestMethod]
+		[Test]
 		public void EqualToNumber()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -38,7 +38,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EqualToBooleanTrue()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -54,7 +54,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EqualToBooleanFalse()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -70,7 +70,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EqualToUntagged()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -88,7 +88,7 @@ namespace ThingFilter.Tests
 			Assert.AreEqual(2, filtered.Count());
 		}
 
-		[TestMethod]
+		[Test]
 		public void NotEqualToString()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -104,7 +104,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void NotEqualToNumber()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -120,7 +120,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void NotEqualToBooleanTrue()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -136,7 +136,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void NotEqualToBooleanFalse()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -152,7 +152,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void LessThanString()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -168,7 +168,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void LessThanNumber()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -184,7 +184,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void LessThanEqualString()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -201,7 +201,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void LessThanEqualNumber()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -218,7 +218,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void GreaterThanString()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -234,7 +234,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void GreaterThanNumber()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -250,7 +250,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void GreaterThanEqualString()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -267,7 +267,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[1], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void GreaterThanEqualNumber()
 		{
 			var filter = new ThingFilter<Subject>()

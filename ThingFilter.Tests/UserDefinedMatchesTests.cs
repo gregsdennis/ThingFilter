@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class UserDefinedMatchesTests
 	{
 		private class StartsWithMatchEvaluator : IMatchEvaluator
@@ -26,7 +26,7 @@ namespace ThingFilter.Tests
 			}
 		}
 
-		[TestMethod]
+		[Test]
 		public void CanAddCustomMatchEvaluator()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -44,7 +44,7 @@ namespace ThingFilter.Tests
 			Assert.AreSame(collection[0], filtered.First().Item);
 		}
 
-		[TestMethod]
+		[Test]
 		public void CanRemoveMatchEvaluator()
 		{
 			var filter = new ThingFilter<Subject>()

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class DataTypeTests
 	{
 
-		[TestMethod]
+		[Test]
 		public void NumericSearch()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -38,7 +38,7 @@ namespace ThingFilter.Tests
 			Assert.AreEqual(2, filtered.Count());
 		}
 
-		[TestMethod]
+		[Test]
 		public void BooleanSearch()
 		{
 			var filter = new ThingFilter<Subject>()

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class UsageExample
 	{
-		[TestMethod]
+		[Test]
 		public void DoIt()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -57,7 +57,7 @@ namespace ThingFilter.Tests
 			Assert.AreEqual(1, typeFilter.Count());
 		}
 
-		[TestMethod]
+		[Test]
 		public void DoItWithExtensionMethod()
 		{
 			var filter = new ThingFilter<Subject>()

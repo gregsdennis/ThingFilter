@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class TaggingTests
 	{
 
-		[TestMethod]
+		[Test]
 		public void TaggedSearch()
 		{
 			var filter = new ThingFilter<Subject>()
@@ -48,7 +48,7 @@ namespace ThingFilter.Tests
 			Assert.IsFalse(results.Select(r => r.Item).Contains(collection[3]));
 		}
 
-		[TestMethod]
+		[Test]
 		public void RequiredTag()
 		{
 			var filter = new ThingFilter<Subject>()

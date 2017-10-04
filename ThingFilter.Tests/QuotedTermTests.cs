@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ThingFilter.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class QuotedTermTests
 	{
-		[TestMethod]
+		[Test]
 		public void QuotedStringMatch()
 		{
 			var filter = new ThingFilter<Subject>()
