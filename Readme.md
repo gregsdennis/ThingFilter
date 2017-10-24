@@ -1,6 +1,6 @@
 Think of it as Google for your objects.
 
-[![littlecrabsolutions MyGet Build Status](https://www.myget.org/BuildSource/Badge/littlecrabsolutions?identifier=526ca85a-64e9-4255-9774-61bb974a3487)](https://www.myget.org/)
+[![littlecrabsolutions MyGet Build Status](https://www.myget.org/BuildSource/Badge/littlecrabsolutions?identifier=526ca85a-64e9-4255-9774-61bb974a3487)](https://www.myget.org/) <a href="http://www.jetbrains.com/resharper"><img src="http://i61.tinypic.com/15qvwj7.jpg" alt="ReSharper" title="ReSharper"></a>
 
 ## An Example
 
