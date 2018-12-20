@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace ThingFilter
@@ -43,6 +44,47 @@ namespace ThingFilter
 					Weight = weight
 				});
 			return this;
+		}
+
+		/// <summary>
+		/// Creates match requirements for all public readable instance properties.
+		/// </summary>
+		/// <param name="requireTags">(Optional) <c>true</c> if the tags should be required to match any value; <c>false</c> otherwise. The default is <c>false</c>.</param>
+		/// <returns>The filter instance (this).</returns>
+		public IFilter<T> MatchOnAll(bool requireTags = false)
+		{
+			_allTargets.Clear();
+
+			var properties = _GetInstanceProperties(typeof(T));
+			_allTargets.AddRange(properties.Select(p =>
+			{
+				Func<T, object> func = t => p.GetValue(t);
+				return new TaggedDelegate
+				{
+					Delegate = func,
+					Tag = p.Name,
+					Weight = 1,
+				};
+			}));
+
+			return this;
+		}
+
+		private static IEnumerable<PropertyInfo> _GetInstanceProperties(Type type)
+		{
+			return GetAllProperties(type.GetTypeInfo())
+				.Where(p => (!p.GetMethod?.IsStatic ?? false) && (p.GetMethod?.IsPublic ?? false))
+				.Where(p => p.GetMethod?.IsPublic ?? false);
+		}
+		public static IEnumerable<PropertyInfo> GetAllProperties(TypeInfo type)
+		{
+			var properties = new List<PropertyInfo>();
+			while (type != null)
+			{
+				properties.AddRange(type.DeclaredProperties);
+				type = type.BaseType?.GetTypeInfo();
+			}
+			return properties;
 		}
 
 		/// <summary>

@@ -2,8 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.2</TargetFramework>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>v1.1.0
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>v1.2.0
+Added MatchOnAll() which matches on all top-level public readable instance properties for a type.
+
+v1.1.0
 Changed to .Net Standard 1.2 (no breakages)
 
 v1.0.0
