@@ -32,7 +32,6 @@ namespace ThingFilter
 
 		public bool Equals(TaggedValue query, TaggedValue target)
 		{
-			if (target.Value == null) return false;
 			if (query.Tag == null && target.Tag != null && target.RequiresTag) return false;
 			if (query.Tag != null && query.Tag != target.Tag) return false;
 
@@ -67,7 +66,7 @@ namespace ThingFilter
 				return double.TryParse(query, out var doubleQuery) && evaluator.Match(doubleQuery, Convert.ToDouble(target));
 			}
 
-			return evaluator.Match(query, target.ToString(), IsCaseSensitive);
+			return evaluator.Match(query, target?.ToString(), IsCaseSensitive);
 		}
 	}
 }

@@ -2,8 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.2</TargetFramework>
-    <Version>1.2.0</Version>
-    <PackageReleaseNotes>v1.2.0
+    <Version>1.3.0</Version>
+    <PackageReleaseNotes>v1.3.0
+Support for empty values and unquoted nulls to act as null queries.
+
+v1.2.0
 Added MatchOnAll() which matches on all top-level public readable instance properties for a type.
 
 v1.1.0
@@ -18,7 +21,7 @@ Initial release (PCL)</PackageReleaseNotes>
     <PackageTags>filter search fluent</PackageTags>
     <PackageProjectUrl>https://github.com/gregsdennis/ThingFilter</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/gregsdennis/ThingFilter/blob/master/LICENSE</PackageLicenseUrl>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>ThingFilter.snk</AssemblyOriginatorKeyFile>
     <PackageIconUrl>https://github.com/gregsdennis/ThingFilter/blob/master/filter.png</PackageIconUrl>

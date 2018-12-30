@@ -186,9 +186,11 @@ namespace ThingFilter
 		private List<List<TaggedValue>> _GetTokens(string source)
 		{
 			var pattern = new Regex(string.Format(StringExtensions.TermSplitPatternFormat,
-			                                      string.Join("|", _comparer.Evaluators.Select(e => e.Operation))));
+				string.Join("|", _comparer.Evaluators
+					.Select(e => e.Operation)
+					.OrderByDescending(o => o.Length))));
 			var matches = pattern.Matches(source);
-			var individuals = matches.Cast<Match>().Select(_ParseToken);
+			var individuals = matches.Cast<Match>().Where(m => !string.IsNullOrEmpty(m.Value)).Select(_ParseToken);
 			return _RejoinAnds(individuals);
 		}
 
@@ -196,13 +198,15 @@ namespace ThingFilter
 		{
 			var quoted = m.Groups["quoted"]?.Value.Trim();
 			var unquoted = m.Groups["unquoted"]?.Value.Trim();
-			var term = string.IsNullOrEmpty(quoted) ? unquoted : quoted;
+			var isQuoted = !string.IsNullOrEmpty(quoted);
+			var term = isQuoted ? quoted : unquoted == "null" ? string.Empty : unquoted;
 			var tag = m.Groups["tag"]?.Value.Trim();
 			var operatorString = m.Groups["operator"]?.Value.Trim();
 			return new TaggedValue
 				{
 					Tag = string.IsNullOrEmpty(tag) ? null : tag,
 					Value = term,
+					IsQuoted = isQuoted,
 					Operator = operatorString
 				};
 		}

@@ -21,6 +21,7 @@ namespace ThingFilter
 		/// <returns><c>true</c> if a match is found; <c>false</c> otherwise.</returns>
 		public bool Match(string query, string target, bool caseSensitive)
 		{
+			if (string.IsNullOrEmpty(query) && string.IsNullOrEmpty(target)) return true;
 			var comparison = caseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
 			return string.Equals(query, target, comparison);
 		}

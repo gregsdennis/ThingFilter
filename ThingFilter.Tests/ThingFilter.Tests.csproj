@@ -54,6 +54,7 @@
     <Compile Include="CaseSensitivityTests.cs" />
     <Compile Include="DataTypeTests.cs" />
     <Compile Include="MatchAllTests.cs" />
+    <Compile Include="NoValueQueryTests.cs" />
     <Compile Include="OperatorTests.cs" />
     <Compile Include="QuotedTermTests.cs" />
     <Compile Include="ScoreWeightingTests.cs" />
