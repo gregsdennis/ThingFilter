@@ -54,6 +54,23 @@ The `tagged:value` on is a bit more complex.  In configuring the filter, the tag
 
 Furthermore, a tagged value may be configured to match only if the tag is present.  If this were the case for `tagged:value`, then a mere `value` will not match on the value.
 
+### Null queries
+
+Want to search for items with a particular property that is or isn't null?  No problem!  Just two steps:
+
+1. Ensure the property supports a tag
+2. In the query, use the tag with an equal or not-equal operator and either no value or an unquoted `null`.
+
+These do the same thing:
+
+	title=
+
+	title=null
+
+If you want to search for the word "null" specifically, just put quotes around it!
+
+	title="null"
+
 ### Interpreted data types
 
 For the `42` and `true` tokens, if the configured value is of a numeric or boolean type, ThingFilter will attempt to parse the token into the pertinent type.  If the parse succeeds, then it will perform the comparison in that type.  Otherwise, the value is converted to a string via `ToString()` and the comparison proceeds as above.
